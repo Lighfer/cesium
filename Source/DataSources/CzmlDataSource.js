@@ -52,6 +52,7 @@ import CompositeProperty from "./CompositeProperty.js";
 import ConstantPositionProperty from "./ConstantPositionProperty.js";
 import ConstantProperty from "./ConstantProperty.js";
 import CorridorGraphics from "./CorridorGraphics.js";
+import StripeGraphics from "./StripeGraphics.js";
 import CylinderGraphics from "./CylinderGraphics.js";
 import DataSource from "./DataSource.js";
 import DataSourceClock from "./DataSourceClock.js";
@@ -2486,6 +2487,178 @@ function processCorridor(entity, packet, entityCollection, sourceUri) {
     corridor,
     "zIndex",
     corridorData.zIndex,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+}
+
+function processStripe(entity, packet, entityCollection, sourceUri) {
+  const stripeData = packet.stripe;
+  if (!defined(stripeData)) {
+    return;
+  }
+
+  const interval = intervalFromString(stripeData.interval);
+  let stripe = entity.stripe;
+  if (!defined(stripe)) {
+    entity.stripe = stripe = new StripeGraphics();
+  }
+
+  processPacketData(
+    Boolean,
+    stripe,
+    "show",
+    stripeData.show,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPositionArray(
+    stripe,
+    "positions",
+    stripeData.positions,
+    entityCollection
+  );
+  processPacketData(
+    Number,
+    stripe,
+    "width",
+    stripeData.width,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Number,
+    stripe,
+    "height",
+    stripeData.height,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    HeightReference,
+    stripe,
+    "heightReference",
+    stripeData.heightReference,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Number,
+    stripe,
+    "extrudedHeight",
+    stripeData.extrudedHeight,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    HeightReference,
+    stripe,
+    "extrudedHeightReference",
+    stripeData.extrudedHeightReference,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    CornerType,
+    stripe,
+    "cornerType",
+    stripeData.cornerType,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Number,
+    stripe,
+    "granularity",
+    stripeData.granularity,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Boolean,
+    stripe,
+    "fill",
+    stripeData.fill,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processMaterialPacketData(
+    stripe,
+    "material",
+    stripeData.material,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Boolean,
+    stripe,
+    "outline",
+    stripeData.outline,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Color,
+    stripe,
+    "outlineColor",
+    stripeData.outlineColor,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Number,
+    stripe,
+    "outlineWidth",
+    stripeData.outlineWidth,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    ShadowMode,
+    stripe,
+    "shadows",
+    stripeData.shadows,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    DistanceDisplayCondition,
+    stripe,
+    "distanceDisplayCondition",
+    stripeData.distanceDisplayCondition,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    ClassificationType,
+    stripe,
+    "classificationType",
+    stripeData.classificationType,
+    interval,
+    sourceUri,
+    entityCollection
+  );
+  processPacketData(
+    Number,
+    stripe,
+    "zIndex",
+    stripeData.zIndex,
     interval,
     sourceUri,
     entityCollection
@@ -5007,6 +5180,7 @@ CzmlDataSource.updaters = [
   processBillboard, //
   processBox, //
   processCorridor, //
+  processStripe, //
   processCylinder, //
   processEllipse, //
   processEllipsoid, //
