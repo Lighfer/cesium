@@ -1,6 +1,5 @@
 import Check from "./Check.js";
 import defaultValue from "./defaultValue.js";
-import defined from "./defined.js";
 import DeveloperError from "./DeveloperError.js";
 import CesiumMath from "./Math.js";
 
@@ -52,7 +51,7 @@ Cartesian3.fromSpherical = function (spherical, result) {
   Check.typeOf.object("spherical", spherical);
   //>>includeEnd('debug');
 
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Cartesian3();
   }
 
@@ -76,7 +75,7 @@ Cartesian3.fromSpherical = function (spherical, result) {
  * @returns {Cartesian3} The modified result parameter or a new Cartesian3 instance if one was not provided.
  */
 Cartesian3.fromElements = function (x, y, z, result) {
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     return new Cartesian3(x, y, z);
   }
 
@@ -94,10 +93,10 @@ Cartesian3.fromElements = function (x, y, z, result) {
  * @returns {Cartesian3} The modified result parameter or a new Cartesian3 instance if one was not provided. (Returns undefined if cartesian is undefined)
  */
 Cartesian3.clone = function (cartesian, result) {
-  if (!defined(cartesian)) {
+  if (cartesian === undefined || cartesian === null) {
     return undefined;
   }
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     return new Cartesian3(cartesian.x, cartesian.y, cartesian.z);
   }
 
@@ -163,7 +162,7 @@ Cartesian3.unpack = function (array, startingIndex, result) {
 
   startingIndex = defaultValue(startingIndex, 0);
 
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Cartesian3();
   }
   result.x = array[startingIndex++];
@@ -186,7 +185,7 @@ Cartesian3.packArray = function (array, result) {
 
   const length = array.length;
   const resultLength = length * 3;
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Array(resultLength);
   } else if (!Array.isArray(result) && result.length !== resultLength) {
     //>>includeStart('debug', pragmas.debug);
@@ -221,7 +220,7 @@ Cartesian3.unpackArray = function (array, result) {
   //>>includeEnd('debug');
 
   const length = array.length;
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Array(length / 3);
   } else {
     result.length = length / 3;
@@ -746,8 +745,10 @@ Cartesian3.projectVector = function (a, b, result) {
 Cartesian3.equals = function (left, right) {
   return (
     left === right ||
-    (defined(left) &&
-      defined(right) &&
+    (left !== undefined &&
+      left !== null &&
+      right !== undefined &&
+      right !== null &&
       left.x === right.x &&
       left.y === right.y &&
       left.z === right.z)
@@ -784,8 +785,10 @@ Cartesian3.equalsEpsilon = function (
 ) {
   return (
     left === right ||
-    (defined(left) &&
-      defined(right) &&
+    (left !== undefined &&
+      left !== null &&
+      right !== undefined &&
+      right !== null &&
       CesiumMath.equalsEpsilon(
         left.x,
         right.x,
@@ -924,9 +927,10 @@ Cartesian3.fromRadians = function (
   //>>includeEnd('debug');
 
   height = defaultValue(height, 0.0);
-  const radiiSquared = defined(ellipsoid)
-    ? ellipsoid.radiiSquared
-    : wgs84RadiiSquared;
+  const radiiSquared =
+    ellipsoid !== undefined && ellipsoid !== null
+      ? ellipsoid.radiiSquared
+      : wgs84RadiiSquared;
 
   const cosLatitude = Math.cos(latitude);
   scratchN.x = cosLatitude * Math.cos(longitude);
@@ -939,7 +943,7 @@ Cartesian3.fromRadians = function (
   scratchK = Cartesian3.divideByScalar(scratchK, gamma, scratchK);
   scratchN = Cartesian3.multiplyByScalar(scratchN, height, scratchN);
 
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Cartesian3();
   }
   return Cartesian3.add(scratchK, scratchN, result);
@@ -967,7 +971,7 @@ Cartesian3.fromDegreesArray = function (coordinates, ellipsoid, result) {
   //>>includeEnd('debug');
 
   const length = coordinates.length;
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Array(length / 2);
   } else {
     result.length = length / 2;
@@ -1011,7 +1015,7 @@ Cartesian3.fromRadiansArray = function (coordinates, ellipsoid, result) {
   //>>includeEnd('debug');
 
   const length = coordinates.length;
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Array(length / 2);
   } else {
     result.length = length / 2;
@@ -1055,7 +1059,7 @@ Cartesian3.fromDegreesArrayHeights = function (coordinates, ellipsoid, result) {
   //>>includeEnd('debug');
 
   const length = coordinates.length;
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Array(length / 3);
   } else {
     result.length = length / 3;
@@ -1100,7 +1104,7 @@ Cartesian3.fromRadiansArrayHeights = function (coordinates, ellipsoid, result) {
   //>>includeEnd('debug');
 
   const length = coordinates.length;
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new Array(length / 3);
   } else {
     result.length = length / 3;

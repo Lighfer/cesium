@@ -1,6 +1,5 @@
 import Cartesian3 from "./Cartesian3.js";
 import Check from "./Check.js";
-import defined from "./defined.js";
 
 /**
  * A fixed-point encoding of a {@link Cartesian3} with 64-bit floating-point components, as two {@link Cartesian3}
@@ -54,7 +53,7 @@ EncodedCartesian3.encode = function (value, result) {
   Check.typeOf.number("value", value);
   //>>includeEnd('debug');
 
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = {
       high: 0.0,
       low: 0.0,
@@ -63,11 +62,11 @@ EncodedCartesian3.encode = function (value, result) {
 
   let doubleHigh;
   if (value >= 0.0) {
-    doubleHigh = Math.floor(value / 65536.0) * 65536.0;
+    doubleHigh = (value >> 16) << 16;
     result.high = doubleHigh;
     result.low = value - doubleHigh;
   } else {
-    doubleHigh = Math.floor(-value / 65536.0) * 65536.0;
+    doubleHigh = (-value >> 16) << 16;
     result.high = -doubleHigh;
     result.low = value + doubleHigh;
   }
@@ -100,7 +99,7 @@ EncodedCartesian3.fromCartesian = function (cartesian, result) {
   Check.typeOf.object("cartesian", cartesian);
   //>>includeEnd('debug');
 
-  if (!defined(result)) {
+  if (result === undefined || result === null) {
     result = new EncodedCartesian3();
   }
 
@@ -155,7 +154,6 @@ EncodedCartesian3.writeElements = function (cartesian, cartesianArray, index) {
   Check.typeOf.number("index", index);
   Check.typeOf.number.greaterThanOrEquals("index", index, 0);
   //>>includeEnd('debug');
-
   EncodedCartesian3.fromCartesian(cartesian, encodedP);
   const high = encodedP.high;
   const low = encodedP.low;
