@@ -445,6 +445,11 @@ PolylineUpdater.prototype.update = function (time) {
 
 PolylineUpdater.prototype.updateObject = function (time, item) {
   const entity = item.entity;
+
+  if (entity.updatable && !entity.updatable(entity._path)) {
+    return;
+  }
+
   const pathGraphics = entity._path;
 
   if (pathGraphics.__updateNFrame) {
