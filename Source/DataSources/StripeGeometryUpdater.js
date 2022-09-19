@@ -100,7 +100,7 @@ export default class StripeGeometryUpdater extends GroundGeometryUpdater {
       let currentColor;
       if (
         defined(this._materialProperty.color) &&
-        (this._materialProperty.color?.isConstant || isAvailable)
+        (this._materialProperty.Color.isConstant || isAvailable)
       ) {
         currentColor = this._materialProperty.color.getValue(
           time,
@@ -204,7 +204,7 @@ export default class StripeGeometryUpdater extends GroundGeometryUpdater {
   }
   _isDynamic(entity, stripe) {
     return (
-      !stripe.positions?.isConstant || //
+      !stripe.positions.isConstant || //
       !Property.isConstant(stripe.height) || //
       !Property.isConstant(stripe.extrudedHeight) || //
       !Property.isConstant(stripe.granularity) || //
@@ -244,11 +244,11 @@ export default class StripeGeometryUpdater extends GroundGeometryUpdater {
       this._materialProperty instanceof ColorMaterialProperty
         ? PerInstanceColorAppearance.VERTEX_FORMAT
         : MaterialAppearance.MaterialSupport.TEXTURED.vertexFormat;
-    options.positions = stripe.positions?.getValue(
+    options.positions = stripe.positions.getValue(
       Iso8601.MINIMUM_VALUE,
       options.positions
     );
-    options.width = stripe.width?.getValue(Iso8601.MINIMUM_VALUE);
+    options.width = stripe.width.getValue(Iso8601.MINIMUM_VALUE);
     options.granularity = Property.getValueOrUndefined(
       stripe.granularity,
       Iso8601.MINIMUM_VALUE
