@@ -972,11 +972,17 @@ function computeOffsetPoints(
 }
 export default class StripeGeometry {
   constructor(options) {
-    options.ellipsoid = options.ellipsoid ?? Ellipsoid.WGS84;
-    options.granularity = options.granularity ?? CesiumMath.RADIANS_PER_DEGREE;
-    options.height = options.height ?? 0;
-    options.vertexFormat = options.vertexFormat ?? VertexFormat.DEFAULT;
-    options.cornerType = options.cornerType ?? CornerType.ROUNDED;
+    options.ellipsoid = defaultValue(options.ellipsoid, Ellipsoid.WGS84);
+    options.granularity = defaultValue(
+      options.granularity,
+      CesiumMath.RADIANS_PER_DEGREE
+    );
+    options.height = defaultValue(options.height, 0);
+    options.vertexFormat = defaultValue(
+      options.vertexFormat,
+      VertexFormat.DEFAULT
+    );
+    options.cornerType = defaultValue(options.cornerType, CornerType.ROUNDED);
     options = defaultValue(options, defaultValue.EMPTY_OBJECT);
     const positions = options.positions;
     const width = options.width;
