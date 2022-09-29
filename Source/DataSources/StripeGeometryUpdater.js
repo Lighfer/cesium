@@ -100,7 +100,7 @@ export default class StripeGeometryUpdater extends GroundGeometryUpdater {
       let currentColor;
       if (
         defined(this._materialProperty.color) &&
-        (this._materialProperty.Color.isConstant || isAvailable)
+        (this._materialProperty.color.isConstant || isAvailable)
       ) {
         currentColor = this._materialProperty.color.getValue(
           time,
