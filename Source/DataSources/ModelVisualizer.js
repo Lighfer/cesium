@@ -218,6 +218,10 @@ ModelVisualizer.prototype.update = function (time) {
       modelGraphics._lightColor,
       time
     );
+    model.customShader = Property.getValueOrUndefined(
+      modelGraphics._customShader,
+      time
+    );
 
     if (model.ready) {
       const runAnimations = Property.getValueOrDefault(
@@ -470,6 +474,8 @@ ModelVisualizer.prototype.getBoundingSphere = function (entity, result) {
     }
 
     BoundingSphere.clone(clampedBoundingSphere, result);
+    // Reset the clamped bounding sphere.
+    this._modelHash[entity.id].clampedBoundingSphere = undefined;
     return BoundingSphereState.DONE;
   }
 

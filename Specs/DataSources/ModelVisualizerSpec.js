@@ -20,6 +20,7 @@ import {
   NodeTransformationProperty,
   ClippingPlane,
   ClippingPlaneCollection,
+  CustomShader,
   Globe,
   Cartographic,
   createWorldTerrain,
@@ -30,9 +31,9 @@ import pollToPromise from "../pollToPromise.js";
 describe(
   "DataSources/ModelVisualizer",
   function () {
-    const boxUrl = "./Data/Models/GltfLoader/BoxTextured/glTF/BoxTextured.gltf";
+    const boxUrl = "./Data/Models/glTF-2.0/BoxTextured/glTF/BoxTextured.gltf";
     const boxArticulationsUrl =
-      "./Data/Models/GltfLoader/BoxArticulations/glTF/BoxArticulations.gltf";
+      "./Data/Models/glTF-2.0/BoxArticulations/glTF/BoxArticulations.gltf";
 
     let scene;
     let entityCollection;
@@ -136,6 +137,9 @@ describe(
       });
       model.clippingPlanes = new ConstantProperty(clippingPlanes);
 
+      const customShader = new CustomShader();
+      model.customShader = new ConstantProperty(customShader);
+
       model.imageBasedLightingFactor = new ConstantProperty(
         new Cartesian2(0.5, 0.5)
       );
@@ -177,6 +181,9 @@ describe(
       expect(primitive.clippingPlanes._planes[0].distance).toEqual(
         clippingPlanes._planes[0].distance
       );
+
+      expect(primitive.customShader).toEqual(customShader);
+
       expect(primitive.imageBasedLighting.imageBasedLightingFactor).toEqual(
         new Cartesian2(0.5, 0.5)
       );
@@ -428,6 +435,11 @@ describe(
         .then(() => {
           expect(state).toBe(BoundingSphereState.DONE);
 
+          // Ensure that flags and results computed for this model are reset.
+          const modelData = visualizer._modelHash[testObject.id];
+          expect(modelData.awaitingSampleTerrain).toBe(false);
+          expect(modelData.clampedBoundingSphere).toBeUndefined();
+
           // Ensure that we only sample the terrain once from the visualizer.
           // We check for 2 calls here because we call it once in the test.
           expect(sampleTerrainSpy).toHaveBeenCalledTimes(2);
@@ -554,6 +566,11 @@ describe(
         })
         .then(() => {
           expect(state).toBe(BoundingSphereState.DONE);
+
+          // Ensure that flags and results computed for this model are reset.
+          const modelData = visualizer._modelHash[testObject.id];
+          expect(modelData.awaitingSampleTerrain).toBe(false);
+          expect(modelData.clampedBoundingSphere).toBeUndefined();
 
           // Ensure that we only sample the terrain once from the visualizer.
           // We check for 2 calls here because we call it once in the test.
@@ -698,6 +715,11 @@ describe(
         return state !== BoundingSphereState.PENDING;
       }).then(() => {
         expect(state).toBe(BoundingSphereState.FAILED);
+
+        // Ensure that flags and results computed for this model are reset.
+        const modelData = visualizer._modelHash[testObject.id];
+        expect(modelData.sampleTerrainFailed).toBe(false);
+
         // Ensure that we only sample the terrain once from the visualizer.
         expect(sampleTerrainSpy).toHaveBeenCalledTimes(1);
         // Reset the terrain provider.
