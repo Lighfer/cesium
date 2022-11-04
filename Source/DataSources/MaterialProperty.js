@@ -91,6 +91,7 @@ MaterialProperty.getValue = function (time, materialProperty, material) {
         material = Material.fromType(type);
       }
       materialProperty.getValue(time, material.uniforms);
+      material.__cacheMaterialId = materialProperty.__cacheMaterialId;
       return material;
     }
   }
