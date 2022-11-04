@@ -494,7 +494,7 @@ function Animation(container, viewModel) {
   this._themeSwoosh = themeEle.childNodes[6];
   this._themeSwooshHover = themeEle.childNodes[7];
 
-  const svg = document.createElementNS(svgNS, "svg:svg");
+  const svg = document.createElementNS(svgNS, "svg");
   this._svgNode = svg;
 
   // Define the XLink namespace that SVG uses

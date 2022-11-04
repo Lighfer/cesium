@@ -35,7 +35,7 @@ const SvgPathBindingHandler = {
   register: function (knockout) {
     knockout.bindingHandlers.cesiumSvgPath = {
       init: function (element, valueAccessor) {
-        const svg = document.createElementNS(svgNS, "svg:svg");
+        const svg = document.createElementNS(svgNS, "svg");
         svg.setAttribute("class", svgClassName);
 
         const pathElement = document.createElementNS(svgNS, "path");
