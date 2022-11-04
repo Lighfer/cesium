@@ -1827,9 +1827,15 @@ Viewer.prototype._onTick = function (clock) {
   const entityView = this._entityView;
   if (defined(entityView)) {
     const trackedEntity = this._trackedEntity;
+
+    let allowPartial = false;
+    if (trackedEntity.properties._allowPartialGetBoundingSphere) {
+      allowPartial = !!trackedEntity.properties._allowPartialGetBoundingSphere.getValue();
+    }
+
     const trackedState = this._dataSourceDisplay.getBoundingSphere(
       trackedEntity,
-      false,
+      allowPartial,
       boundingSphereScratch
     );
     if (trackedState === BoundingSphereState.DONE) {
