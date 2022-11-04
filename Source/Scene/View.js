@@ -98,7 +98,7 @@ function cameraEqual(camera0, camera1, epsilon) {
 View.prototype.checkForCameraUpdates = function (scene) {
   const camera = this.camera;
   const cameraClone = this._cameraClone;
-  if (!cameraEqual(camera, cameraClone, CesiumMath.EPSILON15)) {
+  if (!cameraEqual(camera, cameraClone, CesiumMath.EPSILON14)) {
     if (!this._cameraStartFired) {
       camera.moveStart.raiseEvent();
       this._cameraStartFired = true;
