@@ -42,7 +42,7 @@ css: { "cesium-selection-wrapper-visible" : isVisible }'
   const path =
     "M -34 -34 L -34 -11.25 L -30 -15.25 L -30 -30 L -15.25 -30 L -11.25 -34 L -34 -34 z M 11.25 -34 L 15.25 -30 L 30 -30 L 30 -15.25 L 34 -11.25 L 34 -34 L 11.25 -34 z M -34 11.25 L -34 34 L -11.25 34 L -15.25 30 L -30 30 L -30 15.25 L -34 11.25 z M 34 11.25 L 30 15.25 L 30 30 L 15.25 30 L 11.25 34 L 34 34 L 34 11.25 z";
 
-  const svg = document.createElementNS(svgNS, "svg:svg");
+  const svg = document.createElementNS(svgNS, "svg");
   svg.setAttribute("width", 160);
   svg.setAttribute("height", 160);
   svg.setAttribute("viewBox", "0 0 160 160");
