@@ -14,6 +14,7 @@ import BoundingSphereState from "./BoundingSphereState.js";
 import BoxGeometryUpdater from "./BoxGeometryUpdater.js";
 import ColorMaterialProperty from "./ColorMaterialProperty.js";
 import CorridorGeometryUpdater from "./CorridorGeometryUpdater.js";
+import StripeGeometryUpdater from "./StripeGeometryUpdater.js";
 import CylinderGeometryUpdater from "./CylinderGeometryUpdater.js";
 import DynamicGeometryBatch from "./DynamicGeometryBatch.js";
 import EllipseGeometryUpdater from "./EllipseGeometryUpdater.js";
@@ -36,6 +37,7 @@ const geometryUpdaters = [
   BoxGeometryUpdater,
   CylinderGeometryUpdater,
   CorridorGeometryUpdater,
+  StripeGeometryUpdater,
   EllipseGeometryUpdater,
   EllipsoidGeometryUpdater,
   PlaneGeometryUpdater,

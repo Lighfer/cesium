@@ -36,6 +36,7 @@ import Property from "./Property.js";
 import PropertyBag from "./PropertyBag.js";
 import RectangleGraphics from "./RectangleGraphics.js";
 import WallGraphics from "./WallGraphics.js";
+import StripeGraphics from "./StripeGraphics.js";
 
 const cartoScratch = new Cartographic();
 
@@ -123,6 +124,7 @@ function Entity(options) {
     "billboard",
     "box",
     "corridor",
+    "stripe",
     "cylinder",
     "description",
     "ellipse", //
@@ -370,6 +372,7 @@ Object.defineProperties(Entity.prototype, {
    * @type {CorridorGraphics|undefined}
    */
   corridor: createPropertyTypeDescriptor("corridor", CorridorGraphics),
+  stripe: createPropertyTypeDescriptor("stripe", StripeGraphics),
   /**
    * Gets or sets the cylinder.
    * @memberof Entity.prototype
