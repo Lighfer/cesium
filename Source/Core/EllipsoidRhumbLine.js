@@ -166,7 +166,11 @@ function calculateSigma(ellipticity, latitude) {
 
   const eSinL = ellipticity * Math.sin(latitude);
   return (
-    Math.log(Math.tan(0.5 * (CesiumMath.PI_OVER_TWO + latitude))) -
+    Math.log(
+      Math.tan(
+        0.5 * Math.max(CesiumMath.PI_OVER_TWO + latitude, 0.0000000000000001)
+      )
+    ) -
     (ellipticity / 2.0) * Math.log((1 + eSinL) / (1 - eSinL))
   );
 }
