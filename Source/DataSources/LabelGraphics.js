@@ -20,6 +20,7 @@ import createPropertyDescriptor from "./createPropertyDescriptor.js";
  * @property {Property | Cartesian2} [pixelOffset=Cartesian2.ZERO] A {@link Cartesian2} Property specifying the pixel offset.
  * @property {Property | Cartesian3} [eyeOffset=Cartesian3.ZERO] A {@link Cartesian3} Property specifying the eye offset.
  * @property {Property | HorizontalOrigin} [horizontalOrigin=HorizontalOrigin.CENTER] A Property specifying the {@link HorizontalOrigin}.
+ * @property {Property | HorizontalOrigin} [textHorizontalOrigin=HorizontalOrigin.LEFT] A Property specifying the {@link HorizontalOrigin}.
  * @property {Property | VerticalOrigin} [verticalOrigin=VerticalOrigin.CENTER] A Property specifying the {@link VerticalOrigin}.
  * @property {Property | HeightReference} [heightReference=HeightReference.NONE] A Property specifying what the height is relative to.
  * @property {Property | Color} [fillColor=Color.WHITE] A Property specifying the fill {@link Color}.
@@ -72,6 +73,8 @@ function LabelGraphics(options) {
   this._eyeOffsetSubscription = undefined;
   this._horizontalOrigin = undefined;
   this._horizontalOriginSubscription = undefined;
+  this._textHorizontalOrigin = undefined;
+  this._textHorizontalOriginSubscription = undefined;
   this._verticalOrigin = undefined;
   this._verticalOriginSubscription = undefined;
   this._heightReference = undefined;
@@ -234,6 +237,13 @@ Object.defineProperties(LabelGraphics.prototype, {
   horizontalOrigin: createPropertyDescriptor("horizontalOrigin"),
 
   /**
+   * Gets or sets the Property specifying the {@link HorizontalOrigin}.
+   * @memberof LabelGraphics.prototype
+   * @type {Property|undefined}
+   */
+  textHorizontalOrigin: createPropertyDescriptor("textHorizontalOrigin"),
+
+  /**
    * Gets or sets the Property specifying the {@link VerticalOrigin}.
    * @memberof LabelGraphics.prototype
    * @type {Property|undefined}
@@ -346,6 +356,7 @@ LabelGraphics.prototype.clone = function (result) {
   result.pixelOffset = this.pixelOffset;
   result.eyeOffset = this.eyeOffset;
   result.horizontalOrigin = this.horizontalOrigin;
+  result.textHorizontalOrigin = this.textHorizontalOrigin;
   result.verticalOrigin = this.verticalOrigin;
   result.heightReference = this.heightReference;
   result.fillColor = this.fillColor;
@@ -394,6 +405,10 @@ LabelGraphics.prototype.merge = function (source) {
   this.horizontalOrigin = defaultValue(
     this.horizontalOrigin,
     source.horizontalOrigin
+  );
+  this.textHorizontalOrigin = defaultValue(
+    this.textHorizontalOrigin,
+    source.textHorizontalOrigin
   );
   this.verticalOrigin = defaultValue(
     this.verticalOrigin,

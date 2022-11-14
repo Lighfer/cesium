@@ -28,6 +28,7 @@ const defaultPixelOffset = Cartesian2.ZERO;
 const defaultEyeOffset = Cartesian3.ZERO;
 const defaultHeightReference = HeightReference.NONE;
 const defaultHorizontalOrigin = HorizontalOrigin.CENTER;
+const defaultTextHorizontalOrigin = HorizontalOrigin.LEFT;
 const defaultVerticalOrigin = VerticalOrigin.CENTER;
 
 const positionScratch = new Cartesian3();
@@ -217,6 +218,11 @@ LabelVisualizer.prototype.update = function (time) {
       labelGraphics._horizontalOrigin,
       time,
       defaultHorizontalOrigin
+    );
+    label.textHorizontalOrigin = Property.getValueOrDefault(
+      labelGraphics._textHorizontalOrigin,
+      time,
+      defaultTextHorizontalOrigin
     );
     label.verticalOrigin = Property.getValueOrDefault(
       labelGraphics._verticalOrigin,
