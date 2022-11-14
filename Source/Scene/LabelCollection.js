@@ -337,6 +337,48 @@ function calculateWidthOffset(lineWidth, horizontalOrigin, backgroundPadding) {
   return backgroundPadding.x;
 }
 
+function calculateTextWidthOffset(
+  lineWidth,
+  maxLineWidth,
+  textHorizontalOrigin,
+  labelHorizontalOrigin,
+  backgroundPadding
+) {
+  if (!defined(textHorizontalOrigin)) {
+    return calculateWidthOffset(
+      lineWidth,
+      labelHorizontalOrigin,
+      backgroundPadding
+    );
+  }
+
+  if (textHorizontalOrigin === HorizontalOrigin.LEFT) {
+    if (labelHorizontalOrigin === HorizontalOrigin.LEFT) {
+      return backgroundPadding.x;
+    } else if (labelHorizontalOrigin === HorizontalOrigin.CENTER) {
+      return -maxLineWidth / 2;
+    }
+
+    return -(maxLineWidth + backgroundPadding.x);
+  } else if (textHorizontalOrigin === HorizontalOrigin.CENTER) {
+    if (labelHorizontalOrigin === HorizontalOrigin.LEFT) {
+      return (maxLineWidth - lineWidth) / 2 + backgroundPadding.x;
+    } else if (labelHorizontalOrigin === HorizontalOrigin.CENTER) {
+      return (-lineWidth + backgroundPadding.x) / 2;
+    }
+
+    return -(maxLineWidth + lineWidth) / 2 - backgroundPadding.x;
+  }
+
+  if (labelHorizontalOrigin === HorizontalOrigin.LEFT) {
+    return maxLineWidth - lineWidth + backgroundPadding.x;
+  } else if (labelHorizontalOrigin === HorizontalOrigin.CENTER) {
+    return -(lineWidth + backgroundPadding.x) / 2;
+  }
+
+  return -lineWidth - backgroundPadding.x;
+}
+
 // reusable Cartesian2 instances
 const glyphPixelOffset = new Cartesian2();
 const scratchBackgroundPadding = new Cartesian2();
@@ -389,11 +431,15 @@ function repositionAllGlyphs(label) {
 
   const scale = label.totalScale;
   const horizontalOrigin = label._horizontalOrigin;
+  const textHorizontalOrigin = label._textHorizontalOrigin;
   const verticalOrigin = label._verticalOrigin;
   let lineIndex = 0;
   let lineWidth = lineWidths[lineIndex];
-  let widthOffset = calculateWidthOffset(
+
+  let widthOffset = calculateTextWidthOffset(
     lineWidth,
+    maxLineWidth,
+    textHorizontalOrigin,
     horizontalOrigin,
     backgroundPadding
   );
@@ -422,8 +468,10 @@ function repositionAllGlyphs(label) {
       ++lineIndex;
       lineOffsetY += lineSpacing;
       lineWidth = lineWidths[lineIndex];
-      widthOffset = calculateWidthOffset(
+      widthOffset = calculateTextWidthOffset(
         lineWidth,
+        maxLineWidth,
+        textHorizontalOrigin,
         horizontalOrigin,
         backgroundPadding
       );

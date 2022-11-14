@@ -191,6 +191,10 @@ function Label(options, labelCollection) {
     options.horizontalOrigin,
     HorizontalOrigin.LEFT
   );
+  this._textHorizontalOrigin = defaultValue(
+    options.textHorizontalOrigin,
+    HorizontalOrigin.LEFT
+  );
   this._pixelOffset = Cartesian2.clone(
     defaultValue(options.pixelOffset, Cartesian2.ZERO)
   );
@@ -880,6 +884,35 @@ Object.defineProperties(Label.prototype, {
 
       if (this._horizontalOrigin !== value) {
         this._horizontalOrigin = value;
+        repositionAllGlyphs(this);
+      }
+    },
+  },
+
+  /**
+   * Gets or sets the horizontal origin of this label's text, which determines if the label is drawn
+   * to the left, center, or right of its anchor position.
+   * <br /><br />
+   * <div align='center'>
+   * <img src='Images/Billboard.setHorizontalOrigin.png' width='648' height='196' /><br />
+   * </div>
+   * @memberof Label.prototype
+   * @type {HorizontalOrigin}
+   * @default HorizontalOrigin.LEFT
+   */
+  textHorizontalOrigin: {
+    get: function () {
+      return this._textHorizontalOrigin;
+    },
+    set: function (value) {
+      //>>includeStart('debug', pragmas.debug);
+      if (!defined(value)) {
+        throw new DeveloperError("value is required.");
+      }
+      //>>includeEnd('debug');
+
+      if (this._textHorizontalOrigin !== value) {
+        this._textHorizontalOrigin = value;
         repositionAllGlyphs(this);
       }
     },
