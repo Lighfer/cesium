@@ -476,6 +476,7 @@ TweenCollection.prototype.remove = function (tween) {
   const index = this._tweens.indexOf(tween);
   if (index !== -1) {
     tween.tweenjs.stop();
+    cleanTweenjs(tween.tweenjs);
     if (defined(tween.cancel)) {
       tween.cancel();
     }
@@ -494,10 +495,10 @@ TweenCollection.prototype.remove = function (tween) {
  */
 TweenCollection.prototype.removeAll = function () {
   const tweens = this._tweens;
-
   for (let i = 0; i < tweens.length; ++i) {
     const tween = tweens[i];
     tween.tweenjs.stop();
+    cleanTweenjs(tween.tweenjs);
     if (defined(tween.cancel)) {
       tween.cancel();
     }
@@ -566,10 +567,19 @@ TweenCollection.prototype.update = function (time) {
       i++;
     } else {
       tweenjs.stop();
+      cleanTweenjs(tweenjs);
       tweens.splice(i, 1);
     }
   }
 };
+
+function cleanTweenjs(tweenjs) {
+  if (tweenjs._group) {
+    if (tweenjs._group._tweensAddedDuringUpdate[tweenjs.getId()]) {
+      tweenjs._group.remove(tweenjs);
+    }
+  }
+}
 
 /**
  * A function that will execute when a tween completes.
