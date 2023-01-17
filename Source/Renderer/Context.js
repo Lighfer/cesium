@@ -1289,7 +1289,20 @@ function continueDraw(context, drawCommand, shaderProgram, uniformMap) {
   }
   //>>includeEnd('debug');
 
-  context._us.model = defaultValue(drawCommand._modelMatrix, Matrix4.IDENTITY);
+  if (drawCommand.reuseUniformStateModelKey) {
+    if (!context._us.reuseModelMap[drawCommand.reuseUniformStateModelKey]) {
+      context._us.model = defaultValue(
+        drawCommand._modelMatrix,
+        Matrix4.IDENTITY
+      );
+      context._us.reuseModelMap[drawCommand.reuseUniformStateModelKey] = true;
+    }
+  } else {
+    context._us.model = defaultValue(
+      drawCommand._modelMatrix,
+      Matrix4.IDENTITY
+    );
+  }
   shaderProgram._setUniforms(
     uniformMap,
     context._us,
