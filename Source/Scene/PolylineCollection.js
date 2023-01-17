@@ -635,13 +635,14 @@ function createCommandLists(
 
       for (let s = 0; s < polylineLength; ++s) {
         const polyline = polylines[s];
-        let mId = polyline._material.__mid;
-        if (!mId) {
-          mId = createMaterialId(polyline._material);
-          if (polyline._material.__cacheMaterialId) {
-            polyline._material.__mid = mId;
-          }
-        }
+        const mId = createMaterialId(polyline._material);
+        // let mId = polyline._material.__mid;
+        // if (!mId) {
+        //   mId = createMaterialId(polyline._material);
+        //   if (polyline._material.__cacheMaterialId) {
+        //     polyline._material.__mid = mId;
+        //   }
+        // }
         if (mId !== currentId) {
           if (defined(currentId) && count > 0) {
             const translucent = currentMaterial.isTranslucent();
@@ -1166,7 +1167,7 @@ function sortPolylinesIntoBuckets(collection) {
   const length = polylines.length;
   for (let i = 0; i < length; ++i) {
     const p = polylines[i];
-    if (p._actualPositions.length > 1 && p._show) {
+    if (p._actualPositions.length > 1) {
       p.update();
       const material = p.material;
       let value = polylineBuckets[material.type];

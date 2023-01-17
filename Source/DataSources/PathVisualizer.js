@@ -46,7 +46,6 @@ function subSampleSampledProperty(
   result
 ) {
   let r = startingIndex;
-
   //Always step exactly on start (but only use it if it exists.)
   let tmp;
   tmp = property.getValueInReferenceFrame(start, referenceFrame, result[r]);
@@ -445,11 +444,6 @@ PolylineUpdater.prototype.update = function (time) {
 
 PolylineUpdater.prototype.updateObject = function (time, item) {
   const entity = item.entity;
-
-  if (entity.updatable && !entity.updatable(entity._path)) {
-    return;
-  }
-
   const pathGraphics = entity._path;
   const positionProperty = entity._position;
 

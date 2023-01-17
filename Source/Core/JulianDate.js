@@ -203,12 +203,7 @@ const iso8601ErrorMessage = "Invalid ISO 8601 date.";
  * @param {Number} [secondsOfDay=0.0] The number of seconds into the current Julian Day Number.  Fractional seconds, negative seconds and seconds greater than a day will be handled correctly.
  * @param {TimeStandard} [timeStandard=TimeStandard.UTC] The time standard in which the first two parameters are defined.
  */
-function JulianDate(
-  julianDayNumber,
-  secondsOfDay,
-  timeStandard,
-  autoConvertToTai
-) {
+function JulianDate(julianDayNumber, secondsOfDay, timeStandard) {
   /**
    * Gets or sets the number of whole days.
    * @type {Number}
@@ -224,7 +219,6 @@ function JulianDate(
   julianDayNumber = defaultValue(julianDayNumber, 0.0);
   secondsOfDay = defaultValue(secondsOfDay, 0.0);
   timeStandard = defaultValue(timeStandard, TimeStandard.UTC);
-  autoConvertToTai = defaultValue(timeStandard, true);
 
   //If julianDayNumber is fractional, make it an integer and add the number of seconds the fraction represented.
   const wholeDays = julianDayNumber | 0;
@@ -234,7 +228,7 @@ function JulianDate(
 
   setComponents(wholeDays, secondsOfDay, this);
 
-  if (autoConvertToTai && timeStandard === TimeStandard.UTC) {
+  if (timeStandard === TimeStandard.UTC) {
     convertUtcToTai(this);
   }
 }
@@ -876,19 +870,11 @@ JulianDate.compare = function (left, right) {
   }
   //>>includeEnd('debug');
 
-  if (left.dayNumber === right.dayNumber) {
-    if (left.secondsOfDay === right.secondsOfDay) {
-      return 0;
-    } else if (left.secondsOfDay > right.secondsOfDay) {
-      return 1;
-    }
-
-    return -1;
-  } else if (left.dayNumber > right.dayNumber) {
-    return 1;
+  const julianDayNumberDifference = left.dayNumber - right.dayNumber;
+  if (julianDayNumberDifference !== 0) {
+    return julianDayNumberDifference;
   }
-
-  return -1;
+  return left.secondsOfDay - right.secondsOfDay;
 };
 
 /**

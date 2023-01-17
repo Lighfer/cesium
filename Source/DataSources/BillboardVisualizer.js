@@ -91,10 +91,6 @@ BillboardVisualizer.prototype.update = function (time) {
     const item = items[i];
     const entity = item.entity;
 
-    if (entity.updatable && !entity.updatable(entity._billboard)) {
-      continue;
-    }
-
     const billboardGraphics = entity._billboard;
     let textureValue;
     let billboard = item.billboard;
