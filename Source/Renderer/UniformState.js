@@ -1149,6 +1149,8 @@ UniformState.prototype.updateCamera = function (camera) {
   this._orthographicIn3D =
     this._mode !== SceneMode.SCENE2D &&
     camera.frustum instanceof OrthographicFrustum;
+
+  this.reuseModelMap = {};
 };
 
 /**
