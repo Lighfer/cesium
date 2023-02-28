@@ -92,6 +92,15 @@ BillboardVisualizer.prototype.update = function (time) {
     const entity = item.entity;
 
     const billboardGraphics = entity._billboard;
+
+    if (billboardGraphics._updateGap) {
+      if (--billboardGraphics._updateGap > 0) {
+        continue;
+      }
+
+      billboardGraphics._updateGap = billboardGraphics._rawUpdateGap;
+    }
+
     let textureValue;
     let billboard = item.billboard;
     let show =
