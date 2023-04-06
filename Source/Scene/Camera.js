@@ -196,6 +196,12 @@ function Camera(scene) {
    */
   this.defaultZoomAmount = 100000.0;
   /**
+   * If camera should adjust pitch value to -90 when zoom out.
+   * @type {Number}
+   * @default true
+   */
+  this.pitchBackOnZoomOut = true;
+  /**
    * If set, the camera will not be able to rotate past this axis in either direction.
    * @type {Cartesian3}
    * @default undefined
