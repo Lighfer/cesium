@@ -583,6 +583,13 @@ function handleZoom(
   orientation.pitch = camera.pitch;
   orientation.roll = camera.roll;
 
+  if (!approachingSurface && camera.pitchBackOnZoomOut) {
+    const pitch = CesiumMath.toDegrees(orientation.pitch);
+    if (pitch > -90) {
+      orientation.pitch = CesiumMath.toRadians(Math.max(pitch - 1, -90));
+    }
+  }
+
   if (camera.frustum instanceof OrthographicFrustum) {
     if (Math.abs(distance) > 0.0) {
       camera.zoomIn(distance);
@@ -599,7 +606,10 @@ function handleZoom(
   let rotatingZoom = object._rotatingZoom;
   let pickedPosition;
 
-  if (!sameStartPosition) {
+  if (
+    !sameStartPosition ||
+    (!approachingSurface && camera.pitchBackOnZoomOut)
+  ) {
     object._zoomMouseStart = Cartesian2.clone(
       startPosition,
       object._zoomMouseStart
