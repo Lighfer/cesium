@@ -25,7 +25,8 @@ function Batch(
   depthFailAppearanceType,
   depthFailMaterialProperty,
   closed,
-  shadows
+  shadows,
+  enableFlat
 ) {
   this.primitives = primitives;
   this.appearanceType = appearanceType;
@@ -50,6 +51,7 @@ function Batch(
   );
   this.subscriptions = new AssociativeArray();
   this.showsUpdated = new AssociativeArray();
+  this.enableFlat = enableFlat;
 }
 
 Batch.prototype.onMaterialChanged = function () {
@@ -157,6 +159,7 @@ Batch.prototype.update = function (time) {
           this.depthFailMaterial
         );
         depthFailAppearance = new this.depthFailAppearanceType({
+          flat: this.enableFlat,
           material: this.depthFailMaterial,
           translucent: this.depthFailMaterial.isTranslucent(),
           closed: this.closed,
@@ -168,6 +171,7 @@ Batch.prototype.update = function (time) {
         asynchronous: true,
         geometryInstances: geometries.slice(),
         appearance: new this.appearanceType({
+          flat: this.enableFlat,
           material: this.material,
           translucent: this.material.isTranslucent(),
           closed: this.closed,
@@ -416,7 +420,8 @@ StaticGeometryPerMaterialBatch.prototype.add = function (time, updater) {
     this._depthFailAppearanceType,
     updater.depthFailMaterialProperty,
     this._closed,
-    this._shadows
+    this._shadows,
+    !!updater.entity.enableFlat
   );
   batch.add(time, updater);
   items.push(batch);

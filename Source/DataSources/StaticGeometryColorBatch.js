@@ -26,7 +26,8 @@ function Batch(
   depthFailAppearanceType,
   depthFailMaterialProperty,
   closed,
-  shadows
+  shadows,
+  enableFlat
 ) {
   this.translucent = translucent;
   this.appearanceType = appearanceType;
@@ -48,6 +49,7 @@ function Batch(
   this.showsUpdated = new AssociativeArray();
   this.itemsToRemove = [];
   this.invalidated = false;
+  this.enableFlat = enableFlat;
 
   let removeMaterialSubscription;
   if (defined(depthFailMaterialProperty)) {
@@ -150,6 +152,7 @@ Batch.prototype.update = function (time) {
           );
         }
         depthFailAppearance = new this.depthFailAppearanceType({
+          flat: this.enableFlat,
           material: this.depthFailMaterial,
           translucent: this.translucent,
           closed: this.closed,
@@ -161,6 +164,7 @@ Batch.prototype.update = function (time) {
         asynchronous: true,
         geometryInstances: geometries.slice(),
         appearance: new this.appearanceType({
+          flat: this.enableFlat,
           translucent: this.translucent,
           closed: this.closed,
         }),
@@ -442,7 +446,8 @@ StaticGeometryColorBatch.prototype.add = function (time, updater) {
     this._depthFailAppearanceType,
     updater.depthFailMaterialProperty,
     this._closed,
-    this._shadows
+    this._shadows,
+    !!updater.entity.enableFlat
   );
   batch.add(updater, instance);
   items.push(batch);

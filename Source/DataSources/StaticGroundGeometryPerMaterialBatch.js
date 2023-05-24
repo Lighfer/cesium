@@ -21,7 +21,8 @@ function Batch(
   appearanceType,
   materialProperty,
   usingSphericalTextureCoordinates,
-  zIndex
+  zIndex,
+  enableFlat
 ) {
   this.primitives = primitives; // scene level primitive collection
   this.classificationType = classificationType;
@@ -45,6 +46,7 @@ function Batch(
   this.usingSphericalTextureCoordinates = usingSphericalTextureCoordinates;
   this.zIndex = zIndex;
   this.rectangleCollisionCheck = new RectangleCollisionChecker();
+  this.enableFlat = enableFlat;
 }
 
 Batch.prototype.onMaterialChanged = function () {
@@ -153,6 +155,7 @@ Batch.prototype.update = function (time) {
         asynchronous: true,
         geometryInstances: geometries.slice(),
         appearance: new this.appearanceType({
+          flat: this.enableFlat,
           material: this.material,
           // translucent and closed properties overridden
         }),
@@ -188,6 +191,7 @@ Batch.prototype.update = function (time) {
       this.materialProperty,
       this.material
     );
+
     this.primitive.appearance.material = this.material;
 
     const updatersWithAttributes = this.updatersWithAttributes.values;
@@ -354,7 +358,8 @@ StaticGroundGeometryPerMaterialBatch.prototype.add = function (time, updater) {
     this._appearanceType,
     updater.fillMaterialProperty,
     usingSphericalTextureCoordinates,
-    zIndex
+    zIndex,
+    !!updater.entity.enableFlat
   );
   batch.add(time, updater, geometryInstance);
   items.push(batch);
