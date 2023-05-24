@@ -91,6 +91,8 @@ DynamicGeometryUpdater.prototype.update = function (time) {
     return;
   }
 
+  const enableFlat = entity.enableFlat;
+
   const shadows = this._geometryUpdater.shadowsProperty.getValue(time);
   const options = this._options;
   if (!defined(geometry.fill) || geometry.fill.getValue(time)) {
@@ -103,7 +105,9 @@ DynamicGeometryUpdater.prototype.update = function (time) {
       appearance = new PerInstanceColorAppearance({
         closed: closed,
         flat:
-          onTerrain && !geometryUpdater._supportsMaterialsforEntitiesOnTerrain,
+          (onTerrain &&
+            !geometryUpdater._supportsMaterialsforEntitiesOnTerrain) ||
+          enableFlat,
       });
     } else {
       const material = MaterialProperty.getValue(
@@ -113,6 +117,7 @@ DynamicGeometryUpdater.prototype.update = function (time) {
       );
       this._material = material;
       appearance = new MaterialAppearance({
+        flat: enableFlat,
         material: material,
         translucent: material.isTranslucent(),
         closed: closed,
